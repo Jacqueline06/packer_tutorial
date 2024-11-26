@@ -42,7 +42,7 @@ packer init <archivo>.pkr.hcl
 
 **¿Qué hace este comando?**
 
-- Descarga e instala los plugins definidos en tu plantilla. Por ejemplo, si estás trabajando con Docker, descargará el plugin de Docker.
+- Descarga e instala los plugins definidos en tu plantilla. Por ejemplo, si estás trabajando con Amazon, descargará el plugin de Amazon.
 - Si los plugins ya están instalados, Packer no hará nada.
 
 ### 2. Formatear la Plantilla de Packer
@@ -96,41 +96,53 @@ Aquí te presentamos un ejemplo general de cómo se estructura una plantilla de 
 ```hcl
 packer {
   required_plugins {
-    docker = {
-      version = ">= 1.1.0"
-      source  = "github.com/hashicorp/docker"
+    amazon = {
+      version = ">= 1.2.8"
+      source  = "github.com/hashicorp/amazon"
     }
   }
 }
 
-source "docker" "ubuntu" {
-  image  = "ubuntu:jammy"
-  commit = true
+source "amazon-ebs" "ubuntu" {
+  ami_name      = "packer-linux-nginx-nodejs"
+  instance_type = "t2.micro"
+  region        = "us-west-2"
+  source_ami_filter {
+    filters = {
+      name                = "ubuntu/images/*ubuntu-jammy-22.04-amd64-server-*"
+      root-device-type    = "ebs"
+      virtualization-type = "hvm"
+    }
+    most_recent = true
+    owners      = ["099720109477"]
+  }
+  ssh_username = "ubuntu"
 }
 
 build {
-  name = "learn-packer"
+  name = "hello-packer"
   sources = [
-    "source.docker.ubuntu"
+    "source.amazon-ebs.ubuntu"
   ]
 }
+
 ```
 
 ### Descripción de las Secciones de una Plantilla Packer
 
 1. **`packer { required_plugins { ... } }`**:
-   - Esta sección es utilizada para definir los plugins que Packer necesita para trabajar. En este caso, se está solicitando el plugin de Docker (aunque si trabajas con AWS, usarías el plugin `amazon`).
+   - Esta sección es utilizada para definir los plugins que Packer necesita para trabajar. En este caso, se está solicitando el plugin de Amazon (aunque si trabajas con AWS, usarías el plugin `amazon`).
    - Especificas la versión mínima del plugin que necesitas y la fuente del plugin (en este caso, desde el repositorio de HashiCorp en GitHub).
-2. **`source "docker" "ubuntu" { ... }`**:
+2. **`source "amazon-ebs" "ubuntu" { ... }`**:
 
-   - En esta sección se define un _builder_ (constructor) que indica el tipo de recurso que deseas crear. En este caso, estamos utilizando el _builder_ de Docker para crear una imagen basada en Ubuntu.
+   - En esta sección se define un _builder_ (constructor) que indica el tipo de recurso que deseas crear. En este caso, estamos utilizando el _builder_ de Amazon para crear una imagen basada en Ubuntu.
    - **`image`**: Especifica la imagen base que se utilizará (en este caso, `ubuntu:jammy`).
    - **`commit`**: Este parámetro indica que una vez que se hayan realizado los cambios en el contenedor, Packer debe hacer un `commit` para guardar el estado final de la imagen.
 
 3. **`build { ... }`**:
-   - El bloque `build` es donde se configuran los pasos de construcción de la imagen. En este caso, estamos construyendo una imagen Docker basada en la fuente de Docker que definimos antes (`source.docker.ubuntu`).
+   - El bloque `build` es donde se configuran los pasos de construcción de la imagen. En este caso, estamos construyendo una imagen Amazon basada en la fuente de Amazon que definimos antes (`source.docker.ubuntu`).
    - **`name`**: Define un nombre para el proceso de construcción. No es obligatorio, pero es útil para identificar el proceso en los registros.
-   - **`sources`**: Aquí defines las fuentes de los _builders_ que utilizarás. En este caso, estamos usando `source.docker.ubuntu`, que corresponde al _builder_ que definimos previamente.
+   - **`sources`**: Aquí defines las fuentes de los _builders_ que utilizarás. En este caso, estamos usando `source.amazon-ebs.ubuntu`, que corresponde al _builder_ que definimos previamente.
 
 
 
@@ -179,4 +191,4 @@ En proceso...
 
 Packer es una herramienta poderosa y flexible para automatizar la creación de imágenes de infraestructura para múltiples plataformas. Ya sea que se esté trabajando con AWS o cualquier otra plataforma, Packer te permite definir tu infraestructura como código y crear imágenes de manera repetible y consistente.
 
-Este repositorio contiene ejemplos tanto para Docker como para AWS, y puedes extenderlo para experimentar con otras plataformas soportadas por Packer.
+Este repositorio contiene ejemplos tanto para AWS como para Azure, y puedes extenderlo para experimentar con otras plataformas soportadas por Packer.
