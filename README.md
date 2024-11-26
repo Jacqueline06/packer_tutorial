@@ -85,7 +85,7 @@ packer build <archivo>.pkr.hcl
 
 
 ## Template de packer
-Para crear la imagen en packer se ha utilizado como referencia el link de https://developer.hashicorp.com/packer/tutorials/aws-get-started/aws-get-started-build-image
+Para crear la imagen en packer se ha utilizado como referencia [Build an image - AWS](https://developer.hashicorp.com/packer/tutorials/aws-get-started/aws-get-started-build-image)
 
 ## Explicación de la Plantilla Packer (Ejemplo General)
 
