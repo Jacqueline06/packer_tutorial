@@ -182,6 +182,19 @@ source "amazon-ebs" "ubuntu" {
   ssh_username = "ubuntu"
 }
 ```
+### Ejecución de archivo packer
+Validación de achivo
+![Validación de achivo](./assets/validate-packer.png)
+
+Contrucción de imagen
+![Contrucción de imagen](./assets/build-packer.png)
+
+![Contrucción de imagen](./assets/build-packer2.png)
+
+Ejecución en AWS
+![Evidencia de AWS](./assets/evidencia-packer.png)
+
+![Evidencia de AWS](./assets/evidencia-packer2.png)
 
 ## Despliegue multinube
 
