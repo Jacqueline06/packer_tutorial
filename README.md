@@ -1,5 +1,6 @@
 # Packer Tutorial
-Despliegue de Nginx y Nodejs mediante una imagen generada por Packer.
+
+Esta guía detalla cómo realizar despliegue de Nginx y Nodejs mediante una imagen generada por Packer. Adicional algunos conocimientos básicos de comandos y estructura del template de Packer.
 
 ### Objetivos
 - Documentar la estructura de la template de packer.
@@ -33,6 +34,8 @@ aws --version
 ```bash
 az version
 ```
+
+Tambies es necesario configurar las credenciales de AWS en tu entorno usando el CLI. Adicional contar con acceso a una cuenta de AWS y tener permisos para crear imágenes y gestionar instancias EC2.
 
 ## Comandos Básicos de Packer
 
@@ -188,14 +191,19 @@ source "amazon-ebs" "ubuntu" {
   ssh_username = "ubuntu"
 }
 ```
-### Ejecución de archivo packer
+### Resultados de la ejecución de archivo packer
+- Packer creará una imagen con Node.js y Nginx preinstalados.
 Validación de achivo
+
 ![Validación de achivo](./assets/validate-packer.png)
 
 Contrucción de imagen
 ![Contrucción de imagen](./assets/build-packer.png)
 
 ![Contrucción de imagen](./assets/build-packer2.png)
+
+- La AMI estará disponible en tu consola de AWS bajo el nombre especificado  (npacker-linux-nginx-nodejs-{{timestamp}}).
+
 
 Ejecución en AWS
 ![Evidencia de AWS](./assets/evidencia-packer.png)
@@ -210,4 +218,4 @@ En proceso...
 
 Packer es una herramienta poderosa y flexible para automatizar la creación de imágenes de infraestructura para múltiples plataformas. Ya sea que se esté trabajando con AWS o cualquier otra plataforma, Packer te permite definir tu infraestructura como código y crear imágenes de manera repetible y consistente.
 
-Este repositorio contiene ejemplos tanto para AWS como para Azure, y puedes extenderlo para experimentar con otras plataformas soportadas por Packer.
+Este repositorio muestra cómo automatizar la creación de una imagen reutilizable con Node.js y Nginx configurados mediante Packer y HCL, permitiendo experimentar con otras plataformas soportadas por Packer.
