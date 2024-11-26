@@ -214,6 +214,54 @@ Ejecución en AWS
 
 En proceso...
 
+### Configuración Azure
+#### **Inicio de sesión en Azure**
+Antes de ejecutar la plantilla de Packer, asegúrate de estar autenticado en Azure. Sigue estos pasos:
+- Abre tu terminal o PowerShell.
+- Ejecuta el siguiente comando:
+```bash
+az login
+```
+- Esto abrirá una ventana del navegador. Ingresa tus credenciales de Azure para iniciar sesión.
+- Si tienes varias suscripciones, asegúrate de seleccionar la correcta:
+```bash
+az account set --subscription "<tu_subscription_id>"
+```
+Si no sabes tu subscription_id, obtén la lista de suscripciones disponibles con:
+```bash
+az account list --output table
+```
+
+#### **Configuración de Variables de Entorno**
+Después de iniciar sesión, configura las credenciales necesarias como variables de entorno para que Packer pueda autenticar tu cuenta.
+- Obtener los datos necesarios desde Azure CLI de subscription_id, client_id, client_secret y tenant_id.
+
+```bash
+az account show --query "id" -o tsv
+
+az ad sp create-for-rbac --name "packer-service-principal" --role Contributor --scopes /subscriptions/<tu_subscription_id>
+```
+- Configurar variables de entorno: 
+```bash
+$env:ARM_SUBSCRIPTION_ID="tu_subscription_id"
+$env:ARM_CLIENT_ID="tu_client_id"
+$env:ARM_CLIENT_SECRET="tu_client_secret"
+$env:ARM_TENANT_ID="tu_tenant_id"
+```
+
+#### **Crear un Grupo de Recursos**
+Packer necesita un grupo de recursos en Azure para almacenar la imagen administrada. Crea uno con este comando:
+```bash
+az group create --name packer-images --location "East US"
+```
+#### **Ejecutar Packer**
+Puedes realizar la ejecición con los comandos básicos de packer.
+```bash
+packer validate template.pkr.hcl
+
+packer build template.pkr.hcl
+```
+
 ## Conclusión
 
 Packer es una herramienta poderosa y flexible para automatizar la creación de imágenes de infraestructura para múltiples plataformas. Ya sea que se esté trabajando con AWS o cualquier otra plataforma, Packer te permite definir tu infraestructura como código y crear imágenes de manera repetible y consistente.
