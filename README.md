@@ -1,6 +1,12 @@
 # Packer Tutorial
 Despliegue de Nginx y Nodejs mediante una imagen generada por Packer.
 
+### Objetivos
+- Documentar la estructura de la template de packer.
+- Documentar los comandos básicos de packer.
+- Desplegar la instancia en una o varias nubles publicas (princila AWS, secundaria Azure).
+- Verificar el funcionamiento correcto.
+
 ## Tabla de Contenido
 
 - [Requisitos Previos](#requisitos-previos)
