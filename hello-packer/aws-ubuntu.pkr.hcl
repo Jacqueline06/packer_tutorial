@@ -40,7 +40,7 @@ source "amazon-ebs" "ubuntu" {
 }
 
 build {
- name = "hello-packer"
+  name = "hello-packer"
   sources = [
     "source.amazon-ebs.ubuntu",
   ]
