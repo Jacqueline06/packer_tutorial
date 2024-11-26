@@ -140,7 +140,7 @@ build {
    - **`commit`**: Este parámetro indica que una vez que se hayan realizado los cambios en el contenedor, Packer debe hacer un `commit` para guardar el estado final de la imagen.
 
 3. **`build { ... }`**:
-   - El bloque `build` es donde se configuran los pasos de construcción de la imagen. En este caso, estamos construyendo una imagen Amazon basada en la fuente de Amazon que definimos antes (`source.docker.ubuntu`).
+   - El bloque `build` es donde se configuran los pasos de construcción de la imagen. En este caso, estamos construyendo una imagen Amazon basada en la fuente de Amazon que definimos antes (`source.amazon-ebs.ubuntu`).
    - **`name`**: Define un nombre para el proceso de construcción. No es obligatorio, pero es útil para identificar el proceso en los registros.
    - **`sources`**: Aquí defines las fuentes de los _builders_ que utilizarás. En este caso, estamos usando `source.amazon-ebs.ubuntu`, que corresponde al _builder_ que definimos previamente.
 
@@ -148,7 +148,7 @@ build {
 
 ## Despliegue
 
-Utilizando el archivo de **aws-ubuntu.pkr.hcl** antes de realizar la contrucción de la imagen, se debe realizar la autenticación de AWS.
+Utilizando el archivo de **template.pkr.hcl** antes de realizar la contrucción de la imagen, se debe realizar la autenticación de AWS.
 
 ### Autenticacion con AWS
 Si no se desean ingresar las variables directamente el codigo se puede realizar en el ambiente de la consola.
