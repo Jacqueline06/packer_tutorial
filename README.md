@@ -212,8 +212,6 @@ Ejecución en AWS
 
 ## Despliegue multinube
 
-En proceso...
-
 ### Configuración Azure
 #### **Inicio de sesión en Azure**
 Antes de ejecutar la plantilla de Packer, asegúrate de estar autenticado en Azure. Sigue estos pasos:
